@@ -1,9 +1,23 @@
 return {
+  -- ensure Mason installed these lsps
+  {
+    "williamboman/mason.nvim",
+    opts = {
+      ensure_installed = {
+        "clangd",
+        "rust_analyzer",
+        "ruff", -- python
+      },
+    },
+  },
+
   {
     "stevearc/conform.nvim",
     event = 'BufWritePre', -- uncomment for format on save
     opts = require "configs.conform",
   },
+
+  { 'Civitasv/cmake-tools.nvim', opts = {} },
 
   -- These are some examples, uncomment them if you want to see them work!
   {
@@ -58,7 +72,7 @@ return {
     config = function()
       require("dapui").setup()
     end,
-  }
+  },
   -- {
   -- 	"nvim-treesitter/nvim-treesitter",
   -- 	opts = {

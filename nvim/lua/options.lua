@@ -18,5 +18,7 @@ local lspconfig = require("lspconfig")
 
 lspconfig.ruff.setup {}
 lspconfig.pyright.setup {}
-lspconfig.clangd.setup {}
+-- lspconfig.clangd.setup {}
 lspconfig.ts_ls.setup {}
+
+
