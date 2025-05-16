@@ -35,3 +35,6 @@ require "nvchad.autocmds"
 vim.schedule(function()
   require "mappings"
 end)
+
+-- set up custom commands
+vim.cmd([[command! CopyPath let @+ = expand('%:p')]])
