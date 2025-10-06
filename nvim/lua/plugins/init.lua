@@ -7,6 +7,7 @@ return {
         "clangd",
         "rust_analyzer",
         "ruff", -- python
+        "pyright",
       },
     },
   },
