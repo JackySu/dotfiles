@@ -202,21 +202,6 @@ return {
   -- add more treesitter parsers
   {
     "nvim-treesitter/nvim-treesitter",
-    priority = 1000,
-    build = function()
-      local TS = require("nvim-treesitter")
-      if not TS.get_installed then
-        LazyVim.error("Please restart Neovim and run `:TSUpdate` to use the `nvim-treesitter` **main** branch.")
-        return
-      end
-      -- make sure we're using the latest treesitter util
-      package.loaded["lazyvim.util.treesitter"] = nil
-      LazyVim.treesitter.build(function()
-        TS.update(nil, { summary = true })
-      end)
-    end,
-    event = { "LazyFile", "VeryLazy" },
-    cmd = { "TSUpdate", "TSInstall", "TSLog", "TSUninstall" },
     dependencies = { "HiPhish/rainbow-delimiters.nvim" },
     opts = function(_, opts)
       -- add rainbow to treesitter
@@ -252,6 +237,10 @@ return {
         "yaml",
         -- append more languages to install
         "rust",
+        "haskell",
+        "go",
+        "c",
+        "cpp",
       })
     end,
   },
