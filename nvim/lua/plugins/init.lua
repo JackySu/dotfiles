@@ -118,13 +118,13 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = {
       "jose-elias-alvarez/typescript.nvim",
-      init = function()
-        require("lazyvim.util").lsp.on_attach(function(_, buffer)
-          -- stylua: ignore
-          vim.keymap.set( "n", "<leader>co", "TypescriptOrganizeImports", { buffer = buffer, desc = "Organize Imports" })
-          vim.keymap.set("n", "<leader>cR", "TypescriptRenameFile", { desc = "Rename File", buffer = buffer })
-        end)
-      end,
+      -- init = function()
+      --   require("lazyvim.util").lsp.on_attach(function(_, buffer)
+      --     -- stylua: ignore
+      --     vim.keymap.set( "n", "<leader>co", "TypescriptOrganizeImports", { buffer = buffer, desc = "Organize Imports" })
+      --     vim.keymap.set("n", "<leader>cR", "TypescriptRenameFile", { desc = "Rename File", buffer = buffer })
+      --   end)
+      -- end,
     },
     ---@class PluginLspOpts
     opts = {
@@ -183,11 +183,40 @@ return {
         -- ["*"] = function(server, opts) end,
       },
     },
+    keys = {
+      {
+        "<leader>co",
+        "<cmd>TypescriptOrganizeImports<CR>",
+        desc = "Organize Imports",
+        ft = { "typescript", "typescriptreact" },
+      },
+      {
+        "<leader>cR",
+        "<cmd>TypescriptRenameFile<CR>",
+        desc = "Rename File",
+        ft = { "typescript", "typescriptreact" },
+      },
+    },
   },
 
   -- add more treesitter parsers
   {
     "nvim-treesitter/nvim-treesitter",
+    priority = 1000,
+    build = function()
+      local TS = require("nvim-treesitter")
+      if not TS.get_installed then
+        LazyVim.error("Please restart Neovim and run `:TSUpdate` to use the `nvim-treesitter` **main** branch.")
+        return
+      end
+      -- make sure we're using the latest treesitter util
+      package.loaded["lazyvim.util.treesitter"] = nil
+      LazyVim.treesitter.build(function()
+        TS.update(nil, { summary = true })
+      end)
+    end,
+    event = { "LazyFile", "VeryLazy" },
+    cmd = { "TSUpdate", "TSInstall", "TSLog", "TSUninstall" },
     dependencies = { "HiPhish/rainbow-delimiters.nvim" },
     opts = function(_, opts)
       -- add rainbow to treesitter
@@ -195,24 +224,25 @@ return {
         enable = true,
         extended_mode = true,
         max_file_lines = nil,
+        ensure_installed = {
+          "bash",
+          "html",
+          "javascript",
+          "json",
+          "lua",
+          "markdown",
+          "markdown_inline",
+          "python",
+          "query",
+          "regex",
+          "tsx",
+          "typescript",
+          "vim",
+          "yaml",
+          "rust",
+        },
       }
     end,
-    ensure_installed = {
-      "bash",
-      "html",
-      "javascript",
-      "json",
-      "lua",
-      "markdown",
-      "markdown_inline",
-      "python",
-      "query",
-      "regex",
-      "tsx",
-      "typescript",
-      "vim",
-      "yaml",
-    },
   },
 
   -- since `vim.tbl_deep_extend`, can only merge tables and not lists, the code above
@@ -308,6 +338,15 @@ return {
   },
 
   {
+    "folke/snacks.nvim",
+    opts = {
+      indent = {
+        enabled = true,
+        char = " ",
+      },
+    },
+  },
+  {
     "eero-lehtinen/oklch-color-picker.nvim",
     event = "VeryLazy",
     version = "*",
@@ -326,5 +365,110 @@ return {
         style = "virtual_left",
       },
     },
+  },
+
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    event = "LazyFile",
+    opts = function()
+      Snacks.toggle({
+        name = "Indention Guides",
+        get = function()
+          return require("ibl.config").get_config(0).enabled
+        end,
+        set = function(state)
+          require("ibl").setup_buffer(0, { enabled = state })
+        end,
+      }):map("<leader>ug")
+
+      return {
+        indent = {
+          char = "╎",
+          tab_char = " ",
+        },
+        scope = { show_start = false, show_end = false },
+        exclude = {
+          filetypes = {
+            "Trouble",
+            "alpha",
+            "dashboard",
+            "help",
+            "lazy",
+            "mason",
+            "neo-tree",
+            "notify",
+            "snacks_dashboard",
+            "snacks_notif",
+            "snacks_terminal",
+            "snacks_win",
+            "toggleterm",
+            "trouble",
+          },
+        },
+      }
+    end,
+    main = "ibl",
+  },
+
+  -- -- disable indent-blankline
+  -- {
+  --   "lukas-reineke/indent-blankline.nvim",
+  --   event = "LazyFile",
+  --   opts = {
+  --     scope = { enabled = false },
+  --   },
+  -- },
+
+  {
+    "Mr-LLLLL/cool-chunk.nvim",
+    event = { "BufReadPost", "BufNewFile" }, -- Changed from BufReadPre
+    ft = { -- Only load for specific filetypes
+      "lua",
+      "python",
+      "javascript",
+      "typescript",
+      "rust",
+      "go",
+      "c",
+      "cpp",
+      "java",
+      "json",
+      "yaml",
+      "html",
+      "css",
+    },
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require("cool-chunk").setup({
+
+        chunk = {
+          exclude_filetypes = {
+            -- LazyVim special buffers
+            "snacks_picker_list",
+            "snacks_dashboard",
+            "snacks_notif",
+            "snacks_terminal",
+
+            -- Common exclusions
+            "help",
+            "alpha",
+            "dashboard",
+            "neo-tree",
+            "Trouble",
+            "lazy",
+            "mason",
+            "notify",
+            "toggleterm",
+            "lazyterm",
+            "prompt",
+            "TelescopePrompt",
+            "nofile",
+            "terminal",
+          },
+        },
+      })
+    end,
   },
 }
