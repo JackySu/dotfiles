@@ -13,7 +13,8 @@ return {
   { import = "lazyvim.plugins.extras.lang.json" },
 
   {
-    "ribru17/bamboo.nvim",
+    "JackySu/bamboo.nvim",
+    branch = "fix_not_transparent_bufferline",
     lazy = false,
     priority = 2047,
     config = function()
