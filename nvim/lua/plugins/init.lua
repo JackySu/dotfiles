@@ -430,6 +430,7 @@ return {
       require("cool-chunk").setup({
 
         chunk = {
+          priority = 1,
           exclude_filetypes = {
             -- LazyVim special buffers
             "snacks_picker_list",
@@ -452,7 +453,14 @@ return {
             "TelescopePrompt",
             "nofile",
             "terminal",
+
+            -- ignore nvim-dap breakpoint symbols
+            "DapBreakpoint",
           },
+        },
+        line_num = {
+          notify = false,
+          enable = false, -- Disable line_num feature entirely
         },
       })
     end,
