@@ -78,6 +78,9 @@ return {
         desc = "Terminate",
       },
     },
+    config = function()
+      -- leave this blank to avoid loading default config
+    end,
     dependencies = {
       {
         "igorlfs/nvim-dap-view",
