@@ -1,7 +1,17 @@
 # dotfiles
 
-nvim/lua/plugins/rust.lua: 8
-```lua
-local extension_path = vim.env.HOME .. '/.vscode/extensions/vadimcn.vscode-lldb-1.10.0/'
+back up your own neovim/tmux configs by
+
+```bash
+cp -r ~/.local/share/nvim ~/.local/share/nvim.bak
+cp -r ~/.local/state/nvim ~/.local/share/nvim.bak
+cp -r ~/.config/nvim ~/.config/nvim.bak
+cp -r ~/.config/tmux ~/.config/tmux.bak
 ```
-replace this with path to vscode lldb
+
+and copy the new ones
+
+```bash
+cp -r dotfiles/* ~/.config
+```
+
