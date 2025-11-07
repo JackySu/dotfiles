@@ -81,22 +81,45 @@ return {
     config = function()
       -- leave this blank to avoid loading default config
     end,
-    dependencies = {
-      {
-        "igorlfs/nvim-dap-view",
-        -- Alternative UI.  https://igorlfs.github.io/nvim-dap-view/keymaps
-        ---@module 'dap-view'
-        ---@type dapview.Config
-        opts = {
-          -- Automatically toggle dap-view windows when starting/stopping a
-          -- session by pressing continue.
-          auto_toggle = true,
-        },
-      },
-    },
+    -- dependencies = {
+    --   {
+    --     "igorlfs/nvim-dap-view",
+    --     -- Alternative UI.  https://igorlfs.github.io/nvim-dap-view/keymaps
+    --     ---@module 'dap-view'
+    --     ---@type dapview.Config
+    --     opts = {
+    --       -- Automatically toggle dap-view windows when starting/stopping a
+    --       -- session by pressing continue.
+    --       auto_toggle = true,
+    --     },
+    --   },
+    -- },
   },
   {
     "rcarriga/nvim-dap-ui",
+    opts = {
+      layouts = {
+        {
+          elements = {
+            -- Elements can be strings or table with id and size keys.
+            { id = "scopes", size = 0.2 },
+            { id = "breakpoints", size = 0.2 },
+            { id = "stacks", size = 0.2 },
+            { id = "watches", size = 0.4 },
+          },
+          size = 0.2, -- 20% columns
+          position = "left",
+        },
+        {
+          elements = {
+            { id = "repl" },
+            -- { id = "console", size = 0.65 },  -- Uncomment to enable console
+          },
+          size = 10,
+          position = "bottom",
+        },
+      },
+    },
     config = true,
     keys = {
       {

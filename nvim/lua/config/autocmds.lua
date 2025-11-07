@@ -15,3 +15,9 @@ vim.fn.sign_define("DapBreakpointRejected", { text = "", texthl = "DapBreakpo
 
 vim.cmd("hi DapLogPointColor guifg=#61afef")
 vim.fn.sign_define("DapLogPoint", { text = "", texthl = "DapLogPointColor", linehl = "", numhl = "" })
+
+vim.cmd("hi DapStoppedColor guibg=#fcb53b guifg=#1e1e1e")
+vim.fn.sign_define(
+  "DapStopped",
+  { text = "", texthl = "DapStoppedColor", linehl = "DapStoppedColor", numhl = "DapStoppedColor" }
+)

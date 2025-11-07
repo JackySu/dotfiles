@@ -277,7 +277,7 @@ return {
         "shellcheck",
         "shfmt",
         "flake8",
-        "rust-analyzer",
+        -- "rust-analyzer", -- rust-analyzer will be provided be rustaceanvim
         "pyright",
         "clangd",
         "lua-language-server",
