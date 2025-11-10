@@ -18,12 +18,19 @@ return {
       require("crates").setup({
         completion = {
           cmp = {
-            enabled = true,
+            enabled = false, -- disable nvim.cmp as I use blink.cmp
           },
         },
       })
-      require("cmp").setup.buffer({
-        sources = { { name = "crates" } },
+      require("blink.cmp").setup({
+        sources = {
+          default = { "lsp", "path", "snippets", "buffer", "crates" },
+          providers = {
+            crates = {
+              module = "blink.cmp.sources.crates",
+            },
+          },
+        },
       })
     end,
   },
