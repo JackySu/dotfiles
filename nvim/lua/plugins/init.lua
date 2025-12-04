@@ -241,6 +241,7 @@ return {
         "go",
         "c",
         "cpp",
+        "bibtex-tidy",
       })
     end,
   },
