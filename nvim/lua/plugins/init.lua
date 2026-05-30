@@ -349,6 +349,16 @@ return {
         enabled = true,
         char = " ",
       },
+      picker = {
+        sources = {
+          files = {
+            hidden = true, -- Show hidden files in the "files" picker
+          },
+          explorer = {
+            hidden = true, -- Show hidden files in the explorer
+          },
+        },
+      },
     },
   },
   {
